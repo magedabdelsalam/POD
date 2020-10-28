@@ -1,0 +1,101 @@
+    <div class="row">
+        <div class="col s12">
+            <h2>PODS</h2>
+        </div>
+    </div>
+    <div class="row">
+        <section class="col s12 m12 l4">
+            <div class="row">
+                <div class="col s12">
+                    <form id="createPodForm">
+                        <div class="row">
+                            <div class="col s12">
+                                <h5>When can you host?</h5>
+                                <input type="text" id="name" placeholder="Who is hosting?">
+                                <input class="datepicker" type="text" id="date" placeholder="Avaliable Date">
+                                <input type="text" id="time" class="timepicker" placeholder="Avaliable Time">
+                                <input type="text" id="zip" placeholder="Zip Code">
+                                <input type="text" id="contact" placeholder="Phone Number">
+                                <textarea type="text" id="note" class="materialize-textarea" placeholder="Notes"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <input class="btn" type="submit" value="Add Pod">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <form id="createKidForm">
+                        <div class="row">
+                            <div class="col s12">
+                                <h5>Add your kid</h5>
+                                <input type="text" id="first" placeholder="First Name">
+                                <input type="text" id="last" placeholder="Last Name">
+                                <input type="text" id="KidId" placeholder="Kid ID">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <input class="btn" type="submit" value="Add Kid">
+                                {{#Kid}}
+                                {{/Kid}}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <section class="col s12 m12 l8">
+            <div class="row">
+            {{#each Pods}}
+                <div class="col s12">
+                    <div class="card teal darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">{{name}}</span>
+                            <p>{{note}}</p>
+                            <ul>
+                                <li>{{date}}</li>
+                                <li>{{time}}</li>
+                                <li>{{zip}}</li>
+                                <li>{{contact}}</li>
+                            </ul>
+                            <ul>
+                            {{#Kids}}
+                                <li>{{first}} {{last}}
+                                    <button class="btn-small pink delKidBtn" data-kidId="{{id}}">Delete</button>
+                                </li>
+                            {{/Kids}}
+                            </ul>
+                            {{#if user}}
+                            <a class="waves-effect waves-light btn modal-trigger editPodBtn" data-podid={{id}} href="#modal{{id}}">Edit</a>
+                            <button class="btn pink delPodBtn" data-podid={{id}}>Delete</button>
+                            {{/if}}
+                            {{#unless user}}
+                            {{/unless}}
+                            <div id="modal{{id}}" class="modal">
+                                <div class="modal-content">
+                                    <div>
+                                        <input type="text" id="editname-{{id}}" placeholder="Who is hosting?">
+                                        <input class="datepicker" type="text" id="editdate-{{id}}" placeholder="Avaliable Date">
+                                        <input type="text" id="edittime-{{id}}" class="timepicker" placeholder="Avaliable Time">
+                                        <input type="text" id="editzip-{{id}}" placeholder="Zip Code">
+                                        <input type="text" id="editcontact-{{id}}" placeholder="Phone Number">
+                                        <textarea type="text" id="editnote-{{id}}" class="materialize-textarea" placeholder="Notes"></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <input class="btn-flat modal-close" type="submit" data-podid={{id}} value="Close">
+                                    <input class="btn modal-close savePodBtn" type="submit" data-podid={{id}} value="Save">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+            </div>
+        </section>
+    </div>

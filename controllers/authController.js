@@ -3,86 +3,48 @@ const router = express.Router();
 const db = require('../models');
 const bcrypt = require('bcrypt');
 
-// Parent Signup
-router.post('/signup/parent', (req, res) => {
-    console.log(req.body);
-    db.Parent.create({
-        first_name: req.body.parentFirst,
-        last_name: req.body.parentLast,
-        email: req.body.parentEmail,
-        password: req.body.parentPassword,
-        monday: req.body.monday,
-        tuesday: req.body.tuesday,
-        wednesday: req.body.wednesday,
-        thursday: req.body.thursday,
-        friday: req.body.friday,
+// Signup
+router.post('/signup', (req, res) => {
+    db.User.create({
+        first: req.body.first,
+        last: req.body.last,
+        email: req.body.email,
+        password: req.body.password,
+        role: req.body.role
     }).then(newUser => {
         req.session.user = {
+            first: newUser.first,
+            last: newUser.last,
             email: newUser.email,
+            role: newUser.role,
             id: newUser.id
         }
-        db.Pod.create({ ParentId: newUser.id })
-            .then(newPod => {
-                res.redirect("/parent")
-            })
+        res.redirect("/profile")
     }).catch(err => {
         console.log(err);
         res.status(500).send("Server error")
     })
 })
 
-
-// Teacher Signup
-router.post('/signup/teacher', (req, res) => {
-    db.Teacher.create({
-        first_name: req.body.teacherFirst,
-        last_name: req.body.teacherLast,
-        email: req.body.teacherEmail,
-        password: req.body.teacherPassword,
-    }).then(newUser => {
-        req.session.user = {
-            email: newUser.email,
-            id: newUser.id
-        }
-        res.redirect("/teacher")
-    }).catch(err => {
-        console.log(err);
-        res.status(500).send("Server error")
-    })
-})
-
-// Student Signup
-router.post('/signup/student', (req, res) => {
-    console.log(req.body)
-    db.Student.create({
-        first_name: req.body.studentFirst,
-        last_name: req.body.studentLast,
-    }).then(function(student){
-        student.addPod(req.body.StudentId);
-        res.json(true);
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).send("Server error")
-    })
-})
-
-// Parent Login
-router.post('/login/parent', (req, res) => {
-    db.Parent.findOne({
-        where: { email: req.body.parentEmail }
+// Login
+router.post('/login', (req, res) => {
+    db.User.findOne({
+        where: { email: req.body.email }
     }).then(user => {
         //check if user entered password matches db password
         if (!user) {
             req.session.destroy();
             return res.status(401).redirect("/error")
 
-        } else if (bcrypt.compareSync(req.body.parentPassword, user.password)) {
+        } else if (bcrypt.compareSync(req.body.password, user.password)) {
             req.session.user = {
+                first: user.first,
+                last: user.last,
                 email: user.email,
+                role: user.role,
                 id: user.id
             }
-            return res.redirect("/parent")
+            return res.redirect("/profile")
         }
         else {
             req.session.destroy();
@@ -90,32 +52,6 @@ router.post('/login/parent', (req, res) => {
         }
     })
 })
-
-
-// Teacher Login
-router.post('/login/teacher', (req, res) => {
-    db.Teacher.findOne({
-        where: { email: req.body.teacherEmail }
-    }).then(user => {
-        //check if user entered password matches db password
-        if (!user) {
-            req.session.destroy();
-            return res.status(401).redirect("/error")
-
-        } else if (bcrypt.compareSync(req.body.teacherPassword, user.password)) {
-            req.session.user = {
-                email: user.email,
-                id: user.id
-            }
-            return res.redirect("/teacher")
-        }
-        else {
-            req.session.destroy();
-            return res.status(401).redirect("/error")
-        }
-    })
-})
-
 
 // Logout 
 router.get('/logout', (req, res) => {
@@ -123,11 +59,9 @@ router.get('/logout', (req, res) => {
     res.redirect("/")
 })
 
-// Session 
 router.get("/sessiondata", (req, res) => {
     res.json(req.session)
 })
 
-
-
 module.exports = router;
+

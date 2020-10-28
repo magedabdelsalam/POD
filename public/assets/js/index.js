@@ -1,95 +1,146 @@
 $(document).ready(function () {
     
-    // Parent Sign up ------------------------------------------------
-    $("#parent-submit-button").on("click", function (event) {
+    // Pod
+    $("#createPodForm").on("submit",event=>{
         event.preventDefault();
-        // Define parentObject to send to authController
-        const parentObject = {
-            parentFirst: $("#parentFirst").val(),
-            parentLast: $("#parentLast").val(),
-            parentEmail: $("#parentEmail").val(),
-            parentPassword: $("#parentPassword").val(),
-            monday: $("#monday").is(":checked"),
-            tuesday: $("#tuesday").is(":checked"),
-            wednesday: $("#wednesday").is(":checked"),
-            thursday: $("#thursday").is(":checked"),
-            friday: $("#friday").is(":checked")
-        }
-        // Post parentObject request -> authController
-        console.log(parentObject);
+        console.log('Pod created!');
         $.ajax({
-            method: "POST",
-            url: "/signup/parent",
-            data: parentObject
-        }).then(apiRes => {
-            console.log(apiRes);
-            window.location.href = "/parent"
-        });
-    });
+            method:"GET",
+            url:"/api/pods",
+        }).then(data=>{
+            console.log(data);
+            const podObj = {
+                name: $("#name").val(),
+                date: $("#date").val(),
+                time: $("#time").val(),
+                zip: $("#zip").val(),
+                contact: $("#contact").val(),
+                note: $("#note").val()
+            }
+            console.log(podObj)
+            $.ajax({
+                method:"POST",
+                url:"/api/pods",
+                data:podObj
+            }).then(apiRes=>{
+                console.log(apiRes);
+                window.location.href= "/profile"
+            })
+        })
 
-    // Teacher Signup ------------------------------------------------
-    $("#teacher-submit-button").on("click", function (event) {
-        event.preventDefault();
-        // Define teacherObject to send to authController
-        const teacherObject = {
-            teacherFirst: $("#teacherFirst").val(),
-            teacherLast: $("#teacherLast").val(),
-            teacherEmail: $("#teacherEmail").val(),
-            teacherPassword: $("#teacherPassword").val()
-        }
-        // Post teacherObject request -> authController
-        console.log(teacherObject);
-        $.ajax({
-            method: "POST",
-            url: "/signup/teacher",
-            data: teacherObject
-        }).then(apiRes => {
-            console.log(apiRes);
-            window.location.href = "/teacher"
-        });
-    });
+    })
 
-    // Add Student --------------------------------------------------
-    $("#createStudentForm").on("submit",event=>{
-        event.preventDefault();
-        const studentObj = {
-            studentFirst: $("#studentFirst").val(),
-            studentLast: $("#studentLast").val(),
-            StudentId: $("#StudentId").val()
-        }
-        console.log(studentObj)
+    $(".editPodBtn").on("click",function(event){
+        const podId = $(this).data("podid");
+        console.log($(this).data("podid"));
         $.ajax({
-            method:"POST",
-            url:"/signup/student",
-            data:studentObj
+            method:"GET",
+            url:`/api/pods/${podId}`,
+        }).then(data=>{
+            console.log(data);
+            let pod = data[0]
+            console.log(pod);
+            let name = pod.name
+            console.log(pod.name)
+            $("#editname-"+podId).val(name)
+            let date = pod.date
+            $("#editdate-"+podId).val(date)
+            let time = pod.time
+            $("#edittime-"+podId).val(time)
+            let zip = pod.zip
+            $("#editzip-"+podId).val(zip)
+            let contact = pod.contact
+            $("#editcontact-"+podId).val(contact)
+            let note = pod.note
+            $("#editnote-"+podId).val(note)
+        });
+    })
+    $(".savePodBtn").on("click",function(event){
+        event.preventDefault();
+        console.log('Pod edited!');
+        const podId = $(this).data("podid");
+        const podObj = {
+            name: $("#editname-"+podId).val(),
+            date: $("#editdate-"+podId).val(),
+            time: $("#edittime-"+podId).val(),
+            zip: $("#editzip-"+podId).val(),
+            contact: $("#editcontact-"+podId).val(),
+            note: $("#editnote-"+podId).val()
+        }
+        console.log(podObj)
+        $.ajax({
+            method:"PUT",
+            url:`/api/pods/${podId}`,
+            data:podObj
         }).then(apiRes=>{
             console.log(apiRes);
-            window.location.href= "/parent"
+            window.location.href= "/profile"
         })
     })
     
-    // Tab through feature screenshots
-    $(".feature").first().addClass("active")
-    $(".feature").click(function () {
-        console.log($(this).text());
-        $(".feature").removeClass("active")
-        for (var i = 0; i < 4; i++) {
-            if ($(this).data("feature") === i) {
-                $(this).addClass("active")
-                $(".feature-screenshot").attr("src", "../assets/img/screenshot-" + i + ".png")
-            }
-        }
-    });
+    $(".delPodBtn").on("click",function(event){
+        console.log('Pod deleted!');
+        const podId = $(this).data("podid");
+        $.ajax({
+            method:"DELETE",
+            url:`/api/pods/${podId}`
+        }).then(data=>{
+           window.location.reload();
+        })
+    })
 
-    // Login module
-    $("#parent-login-button").click(function () {
-        $("#parent-login-div").removeClass("hide")
-    });
-    $("#teacher-login-button").click(function () {
-        $("#teacher-login-div").removeClass("hide")
-    });
-    $(".close").click(function () {
-        $("#parent-login-div").addClass("hide")
-        $("#teacher-login-div").addClass("hide")
-    });
+    // Kid API
+    $("#createKidForm").on("submit",event=>{
+        event.preventDefault();
+        console.log('Kid created!');
+        const kidObj = {
+            first: $("#first").val(),
+            last: $("#last").val(),
+            KidId: $("#KidId").val()
+        }
+        console.log(kidObj)
+        $.ajax({
+            method:"POST",
+            url:"/api/kids",
+            data:kidObj
+        }).then(apiRes=>{
+            console.log(apiRes);
+            window.location.href= "/profile"
+        })
+    })
+
+    $("#editKidForm").on("submit",event=>{
+        event.preventDefault();
+        console.log('Kid edited!');
+        const kidObj = {
+            first: $("#first").val(),
+            last: $("#last").val()
+        }
+        console.log(kidObj)
+        const kidId = $("#editKidId").val()
+        console.log(kidId)
+        $.ajax({
+            method:"PUT",
+            url:`/api/kids/${kidId}`,
+            data:kidObj
+        }).then(apiRes=>{
+            console.log(apiRes);
+            window.location.href= "/profile"
+        })
+    })
+    
+    $(".delKidBtn").on("click",function(event){
+        console.log('Kid deleted!');
+        const kidId = $(this).attr("data-kidid");
+        $.ajax({
+            method:"DELETE",
+            url:`/api/kids/${kidId}`
+        }).then(data=>{
+           window.location.reload();
+        })
+    })
+    
+    M.AutoInit();
+
+    $(".datepicker").datepicker({format: 'yyyy-mm-dd' });
 });

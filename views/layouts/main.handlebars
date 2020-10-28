@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>POD</title>
     <meta charset="UTF-8">
     <!-- Latest compiled and minified CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet"></head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="../assets/css/style.css" type="text/css" />
 <body>
@@ -15,15 +15,15 @@
                 <div class="container">
                     <div class="row">
                         <div class="col s12">
-                            <a href="/" class="logo left">PODS</a>
-                            <ul id="nav-mobile" class="right">
+                            <a href="/" class="brand-logo">PODS</a>
+                            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                            <ul id="nav-mobile" class="right hide-on-med-and-down">
                                 {{#if user}}
-                                    <li><a href="/parent">{{user.email}}</a></li>
+                                    <li><a href="/profile">{{user.email}}</a></li>
                                     <li><a class="btn" href="/logout">logout</a></li>
                                 {{/if}}
                                 {{#unless user}}
-                                <li><a id="teacher-login-button">Teacher Login</a></li>
-                                <li><a class="btn" id="parent-login-button">Parent Login</a></li>
+                                <li><a class="waves-effect waves-light btn modal-trigger" href="#modal">Login</a></li>
                                 {{/unless}}
                             </ul>
                         </div>
@@ -32,27 +32,28 @@
             </div>
         </nav>
     </div>
-    <div id="parent-login-div" class="hide">
-        <div class="card-panel">
-            <h4>Parent Login</h4>
-            <form action="/login/parent" method="POST">
-                <input type="text" name="parentEmail" placeholder="email">
-                <input type="password" name="parentPassword" placeholder="password">
-                <input class="btn" type="submit" value="Login">
-                <a class="btn-flat close">Close</a>
+    <ul class="sidenav" id="mobile-demo">
+        {{#if user}}
+            <li><a href="/profile">{{user.email}}</a></li>
+            <li><a class="btn" href="/logout">logout</a></li>
+        {{/if}}
+        {{#unless user}}
+        <li><a class="waves-effect waves-light btn modal-trigger" href="#modal">Login</a></li>
+        {{/unless}}
+    </ul>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h4>Login</h4>
+            <form action="/login" method="POST">
+                <input type="text" name="email" placeholder="email">
+                <input type="password" name="password" placeholder="password">
+                <div class="modal-footer">
+                    <input class="btn" type="submit" value="Login">
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                </div>
             </form>
         </div>
-    </div>
-    <div id="teacher-login-div" class="hide">
-        <div class="card-panel">
-            <h4>Teacher Login</h4>
-            <form action="/login/teacher" method="POST">
-                <input type="text" name="teacherEmail" placeholder="email">
-                <input type="password" name="teacherPassword" placeholder="password">
-                <input class="btn" type="submit" value="Login">
-                <a class="btn-flat close">Close</a>
-            </form>
-        </div>
+
     </div>
     <div class="container">
     {{{ body }}}
@@ -65,8 +66,8 @@
         </footer>
     </div>
     {{!-- materialize javascript --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="../assets/js/index.js"></script>
 </body>
 
