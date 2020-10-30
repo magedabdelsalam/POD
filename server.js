@@ -35,7 +35,7 @@ app.set('view engine', 'handlebars');
 // Session secret
 require("dotenv").config();
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: "anything",
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -54,7 +54,7 @@ app.use("/api/pods/",podController);
 app.use("/api/kids/",kidController);
  
 // Start App
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
     app.listen(PORT, () => {
     console.log("App listening on PORT " + PORT);
     });
