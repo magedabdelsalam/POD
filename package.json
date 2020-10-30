@@ -1,5 +1,5 @@
 {
-  "name": "PODS",
+  "name": "pods",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -21,11 +21,11 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dyoder838/POD.git"
+    "url": "git+https://github.com/magedabdelsalam/pods.git"
   },
   "keywords": [],
   "bugs": {
-    "url": "https://github.com/dyoder838/POD/issues"
+    "url": "https://github.com/magedabdelsalam/pods/issues"
   },
-  "homepage": "https://github.com/dyoder838/POD#readme"
+  "homepage": "https://github.com/magedabdelsalam/pods#readme"
 }
