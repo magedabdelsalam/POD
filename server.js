@@ -35,7 +35,7 @@ app.set('view engine', 'handlebars');
 // Session secret
 require("dotenv").config();
 app.use(session({
-    secret: "anything",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
