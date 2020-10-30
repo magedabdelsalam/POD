@@ -54,7 +54,7 @@ app.use("/api/pods/",podController);
 app.use("/api/kids/",kidController);
  
 // Start App
-db.sequelize.sync({ force: false }).then(() => {
+db.sequelize.sync({ force: true }).then(() => {
     app.listen(PORT, () => {
     console.log("App listening on PORT " + PORT);
     });
