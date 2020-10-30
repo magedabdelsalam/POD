@@ -1,18 +1,18 @@
 module.exports = function(sequelize, DataTypes) {
     var Pod = sequelize.define('Pod', {
         name: {
-            type:DataTypes.STRING,
+            type: DataTypes.STRING,
             isAlpha: true,
             unique: true
         },
         date: {
-            type:DataTypes.DATEONLY,
+            type: DataTypes.DATEONLY,
         },
         time: {
-            type:DataTypes.STRING,
+            type: DataTypes.STRING,
         },
         zip: {
-            type:DataTypes.STRING,
+            type: DataTypes.STRING,
             isNumeric: true
         },
         contact: {
@@ -20,8 +20,8 @@ module.exports = function(sequelize, DataTypes) {
             isNumeric: true
         },
         note: {
-            type:DataTypes.STRING
-        }
+            type: DataTypes.STRING
+        },
     });
     Pod.associate = function(models) {
         Pod.belongsTo(models.User,{
@@ -29,9 +29,7 @@ module.exports = function(sequelize, DataTypes) {
                 allowNull:false
             }
         });
-        Pod.belongsToMany(models.Kid,{
-            through: "Pod_Kid"
-        });
+        Pod.belongsToMany(models.Kid,{ through: "Pod_Kid" });
     };
     return Pod;
 };

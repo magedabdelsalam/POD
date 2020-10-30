@@ -24,7 +24,7 @@ $(document).ready(function () {
                 data:podObj
             }).then(apiRes=>{
                 console.log(apiRes);
-                window.location.href= "/profile"
+                window.location.href= "/home"
             })
         })
 
@@ -74,7 +74,7 @@ $(document).ready(function () {
             data:podObj
         }).then(apiRes=>{
             console.log(apiRes);
-            window.location.href= "/profile"
+            window.location.href= "/home"
         })
     })
     
@@ -90,13 +90,16 @@ $(document).ready(function () {
     })
 
     // Kid API
-    $("#createKidForm").on("submit",event=>{
+    $(".createKidBtn").on("click",function(event){
         event.preventDefault();
+        const podId = $(this).data("podid");
         console.log('Kid created!');
         const kidObj = {
-            first: $("#first").val(),
-            last: $("#last").val(),
-            KidId: $("#KidId").val()
+            first: $("#first-"+podId).val(),
+            last: $("#last-"+podId).val(),
+            school: $("#school-"+podId).val(),
+            grade: $("#grade-"+podId+"option:selected").val(),
+            KidId: podId
         }
         console.log(kidObj)
         $.ajax({
@@ -105,29 +108,32 @@ $(document).ready(function () {
             data:kidObj
         }).then(apiRes=>{
             console.log(apiRes);
-            window.location.href= "/profile"
+            window.location.href= "/home"
         })
     })
 
-    $("#editKidForm").on("submit",event=>{
-        event.preventDefault();
-        console.log('Kid edited!');
-        const kidObj = {
-            first: $("#first").val(),
-            last: $("#last").val()
-        }
-        console.log(kidObj)
-        const kidId = $("#editKidId").val()
-        console.log(kidId)
-        $.ajax({
-            method:"PUT",
-            url:`/api/kids/${kidId}`,
-            data:kidObj
-        }).then(apiRes=>{
-            console.log(apiRes);
-            window.location.href= "/profile"
-        })
-    })
+    // $("#editKidBtn").on("click",function(event){
+    //     event.preventDefault();
+    //     const podId = $(this).data("podid");
+    //     console.log('Kid edited!');
+    //     const kidObj = {
+    //         first: $("#first-"+podId).val(),
+    //         last: $("#last-"+podId).val(),
+    //         school: $("#school-"+podId).val(),
+    //         grade: $("#grade-"+podId+"option:selected").val(),
+    //         KidId: podId
+    //     }
+    //     const kidId = $(this).data("kidid");
+    //     console.log(kidId)
+    //     $.ajax({
+    //         method:"PUT",
+    //         url:`/api/kids/${kidId}`,
+    //         data:kidObj
+    //     }).then(apiRes=>{
+    //         console.log(apiRes);
+    //         window.location.href= "/home"
+    //     })
+    // })
     
     $(".delKidBtn").on("click",function(event){
         console.log('Kid deleted!');

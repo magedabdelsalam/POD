@@ -1,0 +1,114 @@
+    <article class="space">
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <h3>Schedule</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 m8 l9">
+                    <section>
+                        <div class="row">
+                        {{#each Pods}}
+                            {{#ifCond ../user.school User.school}}
+                            <div class="col s12">
+                                <div class="card teal lighten-5">
+                                    <div class="card-content">
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <span class="card-title">{{name}}</span>
+                                                <p class="flow-text">{{date}} at {{time}}</p>
+                                                <p class="flow-text">{{note}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <a class="modal-trigger btn-small teal" href="#modal1{{id}}">RVSP</a>
+                                                <div id="modal1{{id}}" class="modal">
+                                                    <div class="modal-content">
+                                                        <div>
+                                                            <input type="text" id="first-{{id}}" placeholder="First Name">
+                                                            <input type="text" id="last-{{id}}" placeholder="Last Name">
+                                                            <input type="text" id="school-{{id}}" placeholder="School">
+                                                            <div class="input-field" id="grade-{{id}}">
+                                                                <select>
+                                                                    <option value="" disabled selected>Choose grade level</option>
+                                                                    <option value="Pre Kindergarten">Pre Kindergarten</option>
+                                                                    <option value="Kindergarten">Kindergarten</option>
+                                                                    <option value="Grade 1">Grade 1</option>
+                                                                    <option value="Grade 2">Grade 2</option>
+                                                                    <option value="Grade 3">Grade 3</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input class="btn-flat modal-close" type="submit" data-podid={{id}} value="Cancel">
+                                                        <input class="btn teal modal-close createKidBtn" type="submit" data-podid={{id}} value="Confirm">
+                                                    </div>
+                                                </div>
+                                                <a class="btn-small white teal-text" href="https://lmgtfy.app/?q={{zip}}">Address</a>
+                                                <a class="btn-small white teal-text" href="sms:{{contact}}">SMS</a>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            {{#each Kids}}
+                                            <div class="chip white bigger z-depth-1" data-kidid={{id}}>
+                                                {{first}} {{last}}
+                                                {{#ifCond ../../user.id UserId}}
+                                                <i class="close material-icons delKidBtn">close</i>
+                                                {{/ifCond}}
+                                            </div>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+                                    {{#ifCond ../user.id UserId}}
+                                    <div class="card-action">
+                                        <a class="modal-trigger editPodBtn teal-text" data-podid={{id}} href="#modal{{id}}">Edit POD</a>
+                                        <div id="modal{{id}}" class="modal">
+                                            <div class="modal-content">
+                                                <input type="text" id="editname-{{id}}" placeholder="Who is hosting?">
+                                                <input class="datepicker" type="text" id="editdate-{{id}}" placeholder="Avaliable Date">
+                                                <input type="text" id="edittime-{{id}}" class="timepicker" placeholder="Avaliable Time">
+                                                <input type="text" id="editzip-{{id}}" placeholder="Zip Code">
+                                                <input type="text" id="editcontact-{{id}}" placeholder="Phone Number">
+                                                <textarea type="text" id="editnote-{{id}}" class="materialize-textarea" placeholder="Notes"></textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input class="btn-flat modal-close" type="submit" data-podid={{id}} value="Cancel">
+                                                <input class="btn modal-close savePodBtn" type="submit" data-podid={{id}} value="Save Changes">
+                                            </div>
+                                        </div>
+                                        <a class="delPodBtn teal-text" data-podid={{id}}>Delete POD</a>
+                                    </div>
+                                    {{/ifCond}}
+                                </div>
+                            </div>
+                            {{/ifCond}}
+                        {{/each}}
+                        </div>
+                    </section>
+                </div>
+                <div class="col s12 m4 l3">
+                    <section>
+                        {{#ifCond user.role "Parent"}}
+                        <div class="row">
+                            <div class="col s12">
+                                <form id="createPodForm">
+                                    <h5>When can you host?</h5>
+                                    <input type="text" id="name" placeholder="Who is hosting?">
+                                    <input class="datepicker" type="text" id="date" placeholder="Avaliable Date">
+                                    <input type="text" id="time" class="timepicker" placeholder="Avaliable Time">
+                                    <input type="text" id="zip" placeholder="Zip Code">
+                                    <input type="text" id="contact" placeholder="Phone Number">
+                                    <textarea type="text" id="note" class="materialize-textarea" placeholder="Notes"></textarea>
+                                    <input class="btn-small teal" type="submit" value="Add Pod">
+                                </form>
+                            </div>
+                        </div>
+                        {{/ifCond}}
+                    </section>
+                </div>
+            </div>
+        </div>
+    </article>

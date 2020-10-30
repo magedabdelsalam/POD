@@ -10,16 +10,18 @@ router.post('/signup', (req, res) => {
         last: req.body.last,
         email: req.body.email,
         password: req.body.password,
-        role: req.body.role
+        role: req.body.role,
+        school: req.body.school
     }).then(newUser => {
         req.session.user = {
             first: newUser.first,
             last: newUser.last,
             email: newUser.email,
             role: newUser.role,
+            school: newUser.school,
             id: newUser.id
         }
-        res.redirect("/profile")
+        res.redirect("/home")
     }).catch(err => {
         console.log(err);
         res.status(500).send("Server error")
@@ -42,9 +44,10 @@ router.post('/login', (req, res) => {
                 last: user.last,
                 email: user.email,
                 role: user.role,
+                school: user.school,
                 id: user.id
             }
-            return res.redirect("/profile")
+            return res.redirect("/home")
         }
         else {
             req.session.destroy();

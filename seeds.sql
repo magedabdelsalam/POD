@@ -1,9 +1,7 @@
-INSERT INTO pod_db.Students (first_name, last_name) values ('Jane', 'Doe');
-INSERT INTO pod_db.Students (first_name, last_name) values ('Ashley', 'Johnson');
-INSERT INTO pod_db.Students (first_name, last_name) values ('Brandon', 'Phillips');
+USE pods_db;
 
-INSERT INTO Parents (first_name, last_name, email, monday, tuesday, wednesday, thursday, friday, password) values ('Jae', 'Mclain', 'jae.mclain@gmail.com', 'true', 'false', 'true', 'false', 'true');
+INSERT INTO Users (first, last, email, password, role) values ('John', 'Ahmed', "john@pod.com", "123","parent");
+INSERT INTO Users (first, last, email, password, role) values ('Menna', 'Essam', "menna@pod.com", "123","parent");
+INSERT INTO Users (first, last, email, password, role) values ('Alexa', 'Smith', "alexa@pod.com", "123","parent");
 
-INSERT INTO Parents (first_name, last_name, email, monday, tuesday, wednesday, thursday, friday, password) values ('Jennifer', 'Allen', 'jennifer.allen@gmail.com', 'false', 'false', 'true', 'false', 'true');
-
-INSERT INTO Parents (first_name, last_name, email, monday, tuesday, wednesday, thursday, friday, password) values ('John', 'Phillips', 'john.phillips@gmail.com', 'false', 'true', 'false', 'false', 'false');
+INSERT INTO Pods (name, date, time, zip, contact) values ('Minasan Philly', '2020-11-20', '04:32 AM', '91304', '230402031');

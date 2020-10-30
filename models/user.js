@@ -24,7 +24,10 @@ module.exports = function(sequelize, DataTypes) {
 		role: {
 			type: DataTypes.STRING,
 			allowNull:false,
-			isIn: [['parent', 'teacher']],
+			isIn: [['Parent', 'Teacher']],
+		},
+		school:{
+			type: DataTypes.STRING,
 		}
 	});
 	User.associate = function(models) {

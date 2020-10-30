@@ -9,12 +9,12 @@ router.get("/signup", (req, res) => {
     res.render("signup", { user: req.session.user })
 })
 
-router.get('/profile', (req, res) => {
+router.get('/home', (req, res) => {
     if (req.session.user) {
     db.Pod.findAll({
         include: [db.User,db.Kid],
         order: [
-            ["date", "DESC"],
+            ["date", "ASC"],
             ["time", "DESC"]
         ]
     }).then(pods => {
@@ -26,7 +26,7 @@ router.get('/profile', (req, res) => {
             user: req.session.user,
             Pods: podsJSON
         }
-        res.render("profile", hbsObj);
+        res.render("home", hbsObj);
     })
     } else {
         res.redirect("/")

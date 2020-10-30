@@ -17,7 +17,19 @@ app.use(express.static("public"));
 app.use(express.static('public'));
 
 var exphbs = require('express-handlebars');
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+
+app.engine('handlebars', exphbs({ 
+    defaultLayout: 'main',
+    helpers: {
+        ifCond: function(v1, v2, options){
+            if(v1 == v2) {
+                return options.fn(this);
+            } else {
+                return options.inverse(this);
+            }
+        }
+    } 
+}));
 app.set('view engine', 'handlebars');
 
 // Session secret
