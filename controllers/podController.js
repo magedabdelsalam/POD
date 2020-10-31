@@ -9,29 +9,37 @@ today = today.toISOString()
 today = today.slice(0, 10)
 
 router.get("/", (req, res) => {
-    db.Pod.findAll({
-        order: [
-            ["date", "DESC"],
-            ["time", "DESC"]
-        ],
-        where: {
-            date: {
-                [Op.gt]: [today]
+    if (req.session.user) {
+        db.Pod.findAll({
+            order: [
+                ["date", "DESC"],
+                ["time", "DESC"]
+            ],
+            where: {
+                date: {
+                    [Op.gt]: [today]
+                }
             }
-        }
-    }).then(pods => {
-        res.json(pods)
-    })
+        }).then(pods => {
+            res.json(pods)
+        })
+    } else {
+        res.status(401).send("You're not logged in")
+    }
 })
 
 router.get("/:id", (req, res) => {
-    db.Pod.findAll({
-        where:{
-            id:req.params.id
-        }
-    }).then(pod => {
-        res.json(pod)
-    })
+    if (req.session.user) {
+        db.Pod.findAll({
+            where:{
+                id:req.params.id
+            }
+        }).then(pod => {
+            res.json(pod)
+        })
+    } else {
+        res.status(401).send("You're not logged in")
+    }
 })
 
 router.post("/", (req, res) => {
