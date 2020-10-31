@@ -3,9 +3,13 @@ const router= express.Router();
 const db = require('../models');
 
 router.get("/", (req, res) => {
-    db.Kid.findAll().then(kids => {
-        res.json(kids)
-    })
+    if (req.session.user) {
+        db.Kid.findAll().then(kids => {
+            res.json(kids)
+        })
+    } else {
+        res.status(401).send("You're not logged in")
+    }
 })
 
 router.post("/", (req, res) => {

@@ -11,23 +11,23 @@ router.get("/signup", (req, res) => {
 
 router.get('/home', (req, res) => {
     if (req.session.user) {
-    db.Pod.findAll({
-        include: [db.User,db.Kid],
-        order: [
-            ["date", "ASC"],
-            ["time", "DESC"]
-        ]
-    }).then(pods => {
-        const podsJSON = pods.map(podObj => {
-            return podObj.toJSON()
+        db.Pod.findAll({
+            include: [db.User,db.Kid],
+            order: [
+                ["date", "ASC"],
+                ["time", "DESC"]
+            ]
+        }).then(pods => {
+            const podsJSON = pods.map(podObj => {
+                return podObj.toJSON()
+            })
+            console.log(podsJSON)
+            const hbsObj = {
+                user: req.session.user,
+                Pods: podsJSON
+            }
+            res.render("home", hbsObj);
         })
-        console.log(podsJSON)
-        const hbsObj = {
-            user: req.session.user,
-            Pods: podsJSON
-        }
-        res.render("home", hbsObj);
-    })
     } else {
         res.redirect("/")
     }
